@@ -10,6 +10,7 @@ import chalk from 'chalk'
 import cookieParser from 'cookie-parser'
 import mongoSanitize from 'express-mongo-sanitize'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
+import { connectDB } from './mongo/db.js'
 
 dotenv.config()
 
@@ -39,6 +40,10 @@ const limiter = rateLimit({
 app.use(limiter)
 // Prevent http param polution
 app.use(hpp())
+
+// Mongo DB
+connectDB()
+
 
 import userRouter from './routes/userRoutes.js'
 app.use(`/api/${process.env.VERSION}/users`, userRouter)
