@@ -41,7 +41,23 @@ export const registerUser = asyncHandler(async (req, res, next) => {
  * @access  Public
  */
 export const authUser = asyncHandler(async (req, res, next) => {
-  res.status(200).json({ message: 'AUTH user' })
+
+  const { name, password, email } = req.body
+
+  const user = await User.findOne({ email })
+
+  if (user && (await user.matchPassword(password))) {
+    generateJwtToken(res, user._id)
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    })
+  } else {
+    res.status(401)
+    throw new Error('Invalid login data')
+  }
+
 })
 
 /**
@@ -50,7 +66,12 @@ export const authUser = asyncHandler(async (req, res, next) => {
  * @access  Public
  */
 export const logoutUser = asyncHandler(async (req, res, next) => {
-  res.status(200).json({ message: 'LOGOUT user' })
+  // ustawia pusty `jwt` token oraz zerową datę, celem wyzerowania cookie
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: 'Logged out successfully' });
 })
 
 /**
@@ -59,7 +80,17 @@ export const logoutUser = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 export const getProfile = asyncHandler(async (req, res, next) => {
-  res.status(200).json({ message: 'GET profile' })
+  // pobierz dane usera z bazy na podstawie ID
+  const user = await User.findById(req.user._id)
+  // jeśli jest user
+  if (user) {
+    const { _id, name, email, isAdmin } = user
+    // wyślij dane uzera do klienta
+    return res.status(200).json({ _id, name, email, isAdmin })
+  } else {
+    res.status(404)
+    throw new Error(`User not found`)
+  }
 })
 
 /**
@@ -68,7 +99,29 @@ export const getProfile = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 export const updateProfile = asyncHandler(async (req, res, next) => {
-  res.status(200).json({ message: 'UPDATE profile' })
+  // sprawdź czy jest user w bazie na podstawie ID pobranego z middleware
+  // obiekt dodany podczas sprawdzenia w metodzie protect
+  const user = await User.findById(req.user._id)
+
+  // jeśli jest user
+  if (user) {
+    // ustaw nowe dane lub wstaw stare
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+
+    // set password only if changed (present in body)
+    if (req.body.password) {
+      user.password = req.body.password
+    }
+    // zapisz usera do bazy
+    const updatedUser = await user.save()
+    // pobierz aktualne dane z nowego uzera
+    const { _id, name, email, isAdmin } = updatedUser
+    return res.status(200).json({ _id, name, email, isAdmin })
+  } else {
+    res.status(404)
+    throw new ErrorResponse(`User not found`)
+  }
 })
 
 /**
@@ -77,5 +130,33 @@ export const updateProfile = asyncHandler(async (req, res, next) => {
  * @access  Admin
  */
 export const getUsers = asyncHandler(async (req, res, next) => {
-  res.status(200).json({ message: 'GET users' })
+  const users = await User.find({})
+  res.status(200).json(users)
+})
+
+/**
+ * @description Get user by ID (admin)
+ * @route       GET /api/users/:id
+ * @access      Private/ADMIN
+ */
+export const getUserById = asyncHandler(async (req, res, next) => {
+  res.status(200).json('get user by id')
+})
+
+/**
+ * @description Delete user by ID (admin)
+ * @route       DELETE /api/users/:id
+ * @access      Private/ADMIN
+ */
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  res.status(200).json('delete user by id')
+})
+
+/**
+ * @description Update user by ID (admin)
+ * @route       PUT /api/users/:id
+ * @access      Private/ADMIN
+ */
+export const updateUser = asyncHandler(async (req, res, next) => {
+  res.status(200).json('update user by id')
 })
