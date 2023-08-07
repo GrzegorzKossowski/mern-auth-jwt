@@ -3,6 +3,7 @@ import App from './App';
 import ErrorPage from '../pages/ErrorPage';
 import HomePage from '../pages/HomePage';
 import { Suspense } from 'react';
+import PrivateRoute from '../components/PrivateRoute';
 
 export const router = createBrowserRouter([
     {
@@ -19,6 +20,21 @@ export const router = createBrowserRouter([
                 ),
             },
             {
+                path: '/',
+                element: <PrivateRoute toLogin />,
+                children: [
+                    {
+                        // lazy loading by default Component name version
+                        path: 'profile',
+                        lazy: () => import('../pages/ProfilePage'),
+                    },
+                    {
+                        path: 'profile/edit',
+                        lazy: () => import('../pages/EditProfilePage'),
+                    },
+                ],
+            },
+            {
                 // lazy loading by default Component name version
                 path: 'login',
                 lazy: () => import('../pages/LoginPage'),
@@ -32,8 +48,6 @@ export const router = createBrowserRouter([
                     );
                     return { Component: RegisterPage };
                 },
-                // element: <RegisterPage />,
-                // action: loginAction(queryClient),
             },
         ],
     },
