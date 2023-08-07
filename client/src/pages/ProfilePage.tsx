@@ -16,7 +16,9 @@ export const Component = () => {
                 <div className='max-w-sm'>
                     <img
                         className='w-48 h-48 mx-auto -mb-24 rounded-full'
-                        src={`/images/person/${isAdmin ? 'admin':'avatar'}.jpg`}
+                        src={`/images/person/${
+                            isAdmin ? 'admin' : 'avatar'
+                        }.jpg`}
                         alt={name}
                     />
                     <div
@@ -60,7 +62,7 @@ export const Component = () => {
                         </div>
                         <div className='flex justify-end'>
                             <button
-                                className='border py-2 px-3 rounded-lg'
+                                className='border py-2 px-3 rounded-lg bg-slate-600 text-slate-200'
                                 onClick={editHandler}
                             >
                                 Edit profile
