@@ -3,9 +3,7 @@
 import { useRouteError } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-interface ErrorPageProps {}
-
-const ErrorPage = ({ ...restProps }: ErrorPageProps) => {
+const ErrorPage = () => {
     const error = useRouteError();
     const { status, statusText }: any = error;
     console.log(error);

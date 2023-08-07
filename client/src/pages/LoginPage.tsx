@@ -63,7 +63,7 @@ export const Component = () => {
                                     type='email'
                                     className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 shadow-sm text-base '
                                     placeholder='Your email'
-                                    defaultValue={'john@doe.com'}
+                                    // defaultValue={'john@doe.com'}
                                     minLength={4}
                                     maxLength={50}
                                     required
@@ -91,7 +91,7 @@ export const Component = () => {
                                     type='password'
                                     className=' rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base'
                                     placeholder='Your password'
-                                    defaultValue={'123456'}
+                                    // defaultValue={'123456'}
                                     minLength={6}
                                     maxLength={16}
                                     required

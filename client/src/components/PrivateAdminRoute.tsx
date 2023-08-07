@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Navigate, Outlet } from 'react-router-dom';
@@ -8,8 +7,7 @@ interface PrivateAdminRouteProps {
 }
 
 const PrivateAdminRoute = ({
-    toLogin,
-    ...restProps
+    toLogin
 }: PrivateAdminRouteProps) => {
     const { userInfo } = useSelector((state: RootState) => state.auth);
 

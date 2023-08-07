@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Link, useNavigate } from 'react-router-dom';
-import React from 'react';
 
 export const Component = () => {
     const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -17,11 +16,7 @@ export const Component = () => {
                 <div className='max-w-sm'>
                     <img
                         className='w-48 h-48 mx-auto -mb-24 rounded-full'
-                        src={
-                            '/images/person/' +
-                            (isAdmin ? 'admin' : '') +
-                            'avatar.jpg'
-                        }
+                        src={`/images/person/${isAdmin ? 'admin':'avatar'}.jpg`}
                         alt={name}
                     />
                     <div

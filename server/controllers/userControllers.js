@@ -30,7 +30,8 @@ export const registerUser = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     _id: user._id,
     name: user.name,
-    email: user.email
+    email: user.email,
+    isAdmin: user.isAdmin
   })
 
 })
@@ -51,7 +52,8 @@ export const authUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       _id: user._id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      isAdmin: user.isAdmin
     })
   } else {
     res.status(401)

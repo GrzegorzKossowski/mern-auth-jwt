@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRegisterMutation } from '../redux/slices/apiUserSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { toast } from 'react-toastify';
-import { setCredentials } from '../redux/slices/authSlice';
 
 export const RegisterPage = () => {
     const nameRef = useRef<HTMLInputElement>(null);
