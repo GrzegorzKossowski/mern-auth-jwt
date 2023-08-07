@@ -10,7 +10,6 @@ import chalk from 'chalk'
 import cookieParser from 'cookie-parser'
 import mongoSanitize from 'express-mongo-sanitize'
 import path from 'path'
-import { fileURLToPath } from 'url'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 import { connectDB } from './mongo/db.js'
 
