@@ -137,6 +137,25 @@ export const getUsers = asyncHandler(async (req, res, next) => {
 })
 
 /**
+ * @description Delete user by ID (admin)
+ * @route       DELETE /api/users/:id
+ * @access      Private/ADMIN
+ */
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const { _id } = req.user
+  if (!_id) {
+    res.status(404)
+    throw new ErrorResponse(`User not found`)
+  }
+  const deletedUser = await User.findByIdAndDelete({ _id }).select('-password')
+  if (!deletedUser) {
+    res.status(500)
+    throw new ErrorResponse(`User not deleted`)
+  }
+  res.status(200).json({ message: `User ${deletedUser.name} deleted seccessfully` })
+})
+
+/**
  * @description Get user by ID (admin)
  * @route       GET /api/users/:id
  * @access      Private/ADMIN
@@ -145,14 +164,6 @@ export const getUserById = asyncHandler(async (req, res, next) => {
   res.status(200).json('get user by id')
 })
 
-/**
- * @description Delete user by ID (admin)
- * @route       DELETE /api/users/:id
- * @access      Private/ADMIN
- */
-export const deleteUser = asyncHandler(async (req, res, next) => {
-  res.status(200).json('delete user by id')
-})
 
 /**
  * @description Update user by ID (admin)
